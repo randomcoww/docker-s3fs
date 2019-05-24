@@ -3,7 +3,7 @@
 
 FROM alpine:edge
 
-ENV S3FS_VERSION 1.84
+ENV S3FS_BRANCH master
 
 RUN set -x \
   \
@@ -14,13 +14,10 @@ RUN set -x \
     libxml2-dev \
     fuse-dev \
     curl-dev \
+    git \
   \
 ## build
-  && cd / \
-  && wget -O s3fs.tar.gz https://github.com/s3fs-fuse/s3fs-fuse/archive/v${S3FS_VERSION}.tar.gz \
-  && mkdir -p /usr/src/s3fs \
-  && tar xf s3fs.tar.gz --strip-components=1 -C /usr/src/s3fs \
-  && rm s3fs.tar.gz \
+  && git clone -b $S3FS_BRANCH https://github.com/s3fs-fuse/s3fs-fuse.git /usr/src/s3fs \
   && cd /usr/src/s3fs \
   \
   && autoreconf --install \
